@@ -5,6 +5,11 @@ on:
       - main
   pull_request:
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.
   markdown:
     runs-on: ubuntu-latest
     steps:
