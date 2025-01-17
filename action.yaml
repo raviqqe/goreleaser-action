@@ -24,5 +24,3 @@ runs:
     - uses: goreleaser/goreleaser-action@v6
       with:
         args: release ${{ inputs.snapshot && '--snapshot' || '--' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
