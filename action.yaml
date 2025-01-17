@@ -18,12 +18,19 @@ runs:
       shell: bash
     - run: git config user.email 'action@github.com'
       shell: bash
-    - id: tag
-      run: echo released=$(git tag -l | grep ${{ inputs.version }}) >> ${{ github.output }}
+    - id: check
+      run: >
+        echo dry_run=$(
+          git tag -l | grep ${{ inputs.version }} ||
+          [ -z "${{ inputs.snapshot }}" ] ||
+          [ "${{ inputs.snapshot }}" = true ] &&
+          echo true
+        )
+        >> ${{ github.output }}
       shell: bash
     - run: git tag ${{ inputs.version }} && git push --tags
       shell: bash
-      if: ${{ !inputs.snapshot && !steps.tag.outputs.released }}
+      if: ${{ !steps.check.outputs.dry_run }}
     - uses: goreleaser/goreleaser-action@v6
       with:
-        args: release ${{ (inputs.snapshot || steps.tag.outputs.released) && '--snapshot' || '--' }}
+        args: release ${{ steps.check.outputs.dry_run && '--snapshot' || '--' }}
