@@ -14,6 +14,10 @@ outputs: {}
 runs:
   using: composite
   steps:
+    - run: git config user.name 'GitHub Action'
+      shell: bash
+    - run: git config user.email 'action@github.com'
+      shell: bash
     - uses: goreleaser/goreleaser-action@v6
       with:
         args: release ${{ inputs.snapshot && '--snapshot' || '--' }}
