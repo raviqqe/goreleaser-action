@@ -21,7 +21,7 @@ runs:
     - id: tag
       run: echo released=$(git tag -l | grep ${{ inputs.version }}) >> ${{ github.output }}
       shell: bash
-    - run:
+    - run: git tag ${{ inputs.version }} && git push --tags
       shell: bash
       if: ${{ steps.tag.outputs.released }}
     - uses: goreleaser/goreleaser-action@v6
