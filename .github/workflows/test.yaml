@@ -5,11 +5,11 @@ on:
       - main
   pull_request:
 jobs:
-  test:
+  markdown:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.
+      - uses: raviqqe/markdown-link-check@v1
   spell_check:
     runs-on: ubuntu-latest
     steps:
