@@ -1,26 +1,29 @@
-name: raviqqe/markdown-link-check
-description: Checks links in Markdown files
+name: raviqqe/goreleaser-action
+description: Goreleaser with automatic Git tagging
 branding:
   icon: link
   color: green
 inputs:
-  paths:
-    description: Paths to Markdown files or directories
+  version:
+    description: A version used as a Git tag.
+    required: true
+  snapshot:
+    description: Dry run.
     required: false
-    default: .
 outputs: {}
 runs:
   using: composite
   steps:
-    - uses: lycheeverse/lychee-action@v2
+    - run: git config user.name 'GitHub Action'
+      shell: bash
+    - run: git config user.email 'action@github.com'
+      shell: bash
+    - id: tag
+      run: echo released=$(git tag -l | grep ${{ inputs.version }}) >> ${{ github.output }}
+      shell: bash
+    - run: git tag ${{ inputs.version }} && git push --tags
+      shell: bash
+      if: ${{ steps.tag.outputs.released }}
+    - uses: goreleaser/goreleaser-action@v6
       with:
-        args: >
-          --accept 200..300,403
-          --exclude ^https://ghc.gitlab.haskell.org/
-          --exclude ^https://help.openai.com/
-          --exclude ^https://stackoverflow.com/
-          --exclude ^https://wiki.haskell.org/
-          --exclude ^https://www.gnu.org/software/guile/
-          --no-progress
-          --verbose
-          ${{ inputs.paths }}
+        args: release ${{ (inputs.snapshot || steps.tag.outputs.released) && '--snapshot' || '--' }}
