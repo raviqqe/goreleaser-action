@@ -1,6 +1,6 @@
 # goreleaser-action
 
-The `goreleaser` GitHub acion with automatic tagging.
+The `goreleaser` GitHub action with automatic tagging.
 
 ## Usage
 
