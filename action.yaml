@@ -22,7 +22,6 @@ runs:
       run: >
         echo dry_run=$(
           git tag -l | grep ${{ inputs.version }} ||
-          [ -z "${{ inputs.snapshot }}" ] ||
           [ "${{ inputs.snapshot }}" = true ] &&
           echo true
         )
