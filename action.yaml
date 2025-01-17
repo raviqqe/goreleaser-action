@@ -7,9 +7,15 @@ inputs:
   version:
     description: A version used as a Git tag.
     required: true
+  snapshot:
+    description: Dry run.
+    required: false
 outputs: {}
 runs:
   using: composite
   steps:
-    - run: go install github.com/goreleaser/goreleaser/v2@latest
-      shell: bash
+    - uses: goreleaser/goreleaser-action@v6
+      with:
+        args: release ${{ inputs.snapshot && '--snapshot' || '--' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
