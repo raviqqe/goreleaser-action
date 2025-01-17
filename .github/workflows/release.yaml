@@ -1,0 +1,14 @@
+name: release
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git tag v1
+      - run: git push --tags --force
