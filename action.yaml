@@ -23,7 +23,7 @@ runs:
       shell: bash
     - run: git tag ${{ inputs.version }} && git push --tags
       shell: bash
-      if: ${{ steps.tag.outputs.released }}
+      if: ${{ !inputs.snapshot && !steps.tag.outputs.released }}
     - uses: goreleaser/goreleaser-action@v6
       with:
         args: release ${{ (inputs.snapshot || steps.tag.outputs.released) && '--snapshot' || '--' }}
