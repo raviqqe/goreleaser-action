@@ -7,6 +7,9 @@ inputs:
   version:
     description: A version used as a Git tag.
     required: true
+  path:
+    description: A path to a package.
+    required: false
   snapshot:
     description: Dry run.
     required: false
@@ -33,3 +36,4 @@ runs:
     - uses: goreleaser/goreleaser-action@v6
       with:
         args: release ${{ steps.check.outputs.dry_run && '--snapshot' || '--' }}
+        workdir: ${{ inputs.path || '.' }}
