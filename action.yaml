@@ -36,4 +36,4 @@ runs:
     - uses: goreleaser/goreleaser-action@v6
       with:
         args: release ${{ steps.check.outputs.dry_run && '--snapshot' || '--' }}
-        workdir: ${{ inputs.path || "." }}
+        workdir: ${{ inputs.path || '.' }}
