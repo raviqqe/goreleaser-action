@@ -9,6 +9,6 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: git tag v1
       - run: git push --tags --force
