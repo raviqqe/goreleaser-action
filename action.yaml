@@ -33,7 +33,7 @@ runs:
     - run: git tag ${{ inputs.version }} && git push --tags
       shell: bash
       if: ${{ !steps.check.outputs.dry_run }}
-    - uses: goreleaser/goreleaser-action@v6
+    - uses: goreleaser/goreleaser-action@v7
       with:
         args: release ${{ steps.check.outputs.dry_run && '--snapshot' || '--' }}
         workdir: ${{ inputs.path || '.' }}
