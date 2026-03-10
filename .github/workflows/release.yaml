@@ -1,14 +1,26 @@
 name: release
 on:
+  pull_request:
   push:
     branches:
       - main
-permissions:
-  contents: write
 jobs:
-  tag:
+  release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v6
-      - run: git tag v1
-      - run: git push --tags --force
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: pnpm
+          node-version-file: package.json
+      - uses: pnpm i
+      - run: pnpm semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
