@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      issues: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,7 +18,7 @@ jobs:
         with:
           cache: pnpm
           node-version-file: package.json
-      - uses: pnpm i
+      - run: pnpm i
       - run: pnpm semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
